@@ -14,9 +14,57 @@ Clone the repo locally, navigate to the repo folder, fire up your web server, vi
 
 The initial version has no styling or templating; this is meant to be as bare a repo as possible while still maintaining simple HTML5 standards, semantic elements, and a simple div to switch content out on-click of nav elements.  I have included several pages for demonstration.
 
+### How it works
+
+All the actual functional code is inside `index.html`
+
+The script at the bottom of the index page does three things:
+1) sets the initial template to `pages/main.html`
+2) sets up the header tag to load `pages/main.html` if clicked anywhere
+3) loops through the nav divs to get their ids, then loads the template with the matching name inside the `pages` directory
+
+```
+<script>
+  $('#content-container').loadTemplate('pages/main.html');
+  $('header').click(function(){
+    $('#content-container').loadTemplate('pages/main.html');
+  })
+  $('nav').children().each(function() {
+    $(this).click(function() {
+      $('#content-container').loadTemplate('pages/' + $(this).attr('id') + '.html');
+    });
+  });
+</script>
+```
+
+To add a page, create a new div inside the `nav` tags with `id="pagename"`, then create a template at `pages/pagename.html`.
+
+```
+<nav>
+  <div id="main">Home</div>
+  <div id="about">About Us</div>
+  <div id="portfolio">Portfolio</div>
+  <div id="contact">Contact</div>
+</nav>
+```
+
+To delete a page, delete both the `div` in `index.html`, and the template inside the `pages` directory.
+
+To change a page, change the value of the `id` in its `div`, and change the name of the template inside the `pages` directory.
+
+As long as the `id` and the template name inside the `pages` directory are the same, the templating will work.
+
+Content is loaded into the article tag inside the div with `id="content-container"`
+
+```
+<article>
+  <div id="content-container"></div>
+</article>
+```
+
 ## Running the tests
 
-*Coming soonish, not in v0.1.0*
+*Coming soonish*
 
 ## Deployment
 
